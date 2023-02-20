@@ -10,6 +10,10 @@ import {
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { Fontisto } from "@expo/vector-icons";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+
+dayjs.locale("ko");
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -47,7 +51,7 @@ export default function App() {
       setCity(location[0].city);
 
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=kr`
       );
       const json = await response.json();
       setDays(json.list);
@@ -81,28 +85,40 @@ export default function App() {
             />
           </View>
         ) : (
-          days.map((day, index) => (
-            <View key={index} style={styles.day}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text style={styles.temp}>
-                  {parseFloat(day.main.temp.toFixed(1))}
-                </Text>
-                <Fontisto
-                  name={icons[day.weather[0].main]}
-                  size={70}
-                  color="white"
-                />
-              </View>
-              <Text style={styles.description}>{day.weather[0].main}</Text>
-              <Text style={styles.tinyText}>{day.weather[0].description}</Text>
-            </View>
-          ))
+          days.map(
+            (day, index) =>
+              day.dt_txt.split(" ")[1] === "09:00:00" && (
+                <View key={index} style={styles.day}>
+                  <View style={styles.date}>
+                    <Text style={styles.dateText}>
+                      {day.dt_txt.split(" ")[0].replaceAll("-", ". ")}{" "}
+                      {`(${dayjs(day.dt_txt).format("ddd")})`}
+                    </Text>
+                    <Text style={styles.timeText}>오전 9시</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={styles.temp}>
+                      {parseFloat(day.main.temp.toFixed(1))}
+                    </Text>
+                    <Fontisto
+                      name={icons[day.weather[0].main]}
+                      size={80}
+                      color="white"
+                    />
+                  </View>
+                  <Text style={styles.description}>{day.weather[0].main}</Text>
+                  <Text style={styles.tinyText}>
+                    {day.weather[0].description}
+                  </Text>
+                </View>
+              )
+          )
         )}
       </ScrollView>
     </View>
@@ -118,7 +134,7 @@ const styles = StyleSheet.create({
   },
   cityName: {
     color: "white",
-    fontSize: 60,
+    fontSize: 55,
     fontWeight: "500",
   },
   weather: {},
@@ -126,10 +142,20 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     padding: 20,
   },
+  date: { width: "100%" },
+  dateText: {
+    color: "white",
+    fontSize: 40,
+  },
+  timeText: {
+    marginTop: 10,
+    color: "white",
+    fontSize: 25,
+  },
   temp: {
     marginTop: 50,
     color: "white",
-    fontSize: 120,
+    fontSize: 110,
   },
   description: {
     color: "white",
