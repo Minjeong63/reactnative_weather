@@ -51,3 +51,47 @@ Snack은 브라우저에서 React 어플리케이션을 만들 수 있게 해주
 이걸 사용하는 이유는 좋은 자동 완성 기능을 제공함 (c만 입력해도 c를 포함한 옵션들이 다 보여짐)
 하지만 필수 요소는 아님
 인라인 스타일도 가능, StylesSheet.create를 뺀 객체만 선언해도 사용 가능 (ex. const styles = {fontSize:48})
+
+## 9. Layout System
+
+View Component는 기본적으로 display: flex가 적용된 상태임
+리액트 네이티브에서는 flex만 사용 가능
+Flex Direction의 기본값은 Column임
+레이아웃을 만들 때 너비와 높이에 기반해서 레이아웃을 만들지 않음(스크린 사이즈에 따라 다르게 보이기 때문)
+style={{flex:1}} 속성으로 비율에 따라 레이아웃을 표현함
+자식 View 태그에 flex:1 속성을 주려면 꼭 부모 View 태그에 먼저 flex:1 속성을 줘야만 가능
+
+## 10. ScrollView
+
+리액트 네이티브는 다 Component여서 내용이 많다고 자동 스크롤이 되지 않음 (그냥 내용이 화면 크기에 맞게 잘림)
+스크롤을 하기 위해 사용하는 컴포넌트가 ScrollView임
+style을 적용하려면 style={{}}처럼 사용하면 안되고 contentContainerStyle={{}}로 사용해야 함
+ScrollView는 스크린보다 더 나아가야 하기 때문에 flex:1 속성을 주면 안됨
+
+## 11. Dimensions
+
+Dimensions는 화면 크기를 얻을 수 있음
+
+## 12. ScrollView 속성(pagingEnabled)
+
+pagingEnabled는 스크롤을 자유롭게 하지 못하게 함
+
+## 13. ScrollView 속성(showsHorizontalScrollIndicator)
+
+showsHorizontalScrollIndicator는 핸드폰 맨 밑에 페이지 표시하는 바(page indicator)를 안보이게 설정할 수 있는 기능
+
+## 14. ScrollView 속성(indicatorStyle (only IOS))
+
+page indicator의 색상을 변경할 수 있음(black, default, white)
+
+## 15. 유저 정보 가져오기 위한 api
+
+expo install expo-location
+
+## 16. requestForegroundPermissionsAsync()
+
+권한 요청할 때 사용하는 api (앱 사용 중에만 위치를 사용)
+
+## 17. ActivityIndicator
+
+로딩중 표시를 보여주는 Component
