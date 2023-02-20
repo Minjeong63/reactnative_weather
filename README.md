@@ -1,4 +1,6 @@
-# React Native
+# React Native - Weather
+
+내 위치의 날씨의 5일치를 3시간 단위로 받아온 후 보여주는 앱
 
 ## 1. Node.js 설치
 
